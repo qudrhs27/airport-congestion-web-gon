@@ -16,6 +16,16 @@
   color: var(--text);
 }
 
+.detail-total {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+  padding: 16px 14px;
+  border-left: 3px solid #334155;
+  background: color-mix(in srgb, var(--code-bg) 80%, transparent);
+}
+
 .detail-empty p {
   margin: 8px 0 0;
   color: var(--text);
