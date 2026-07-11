@@ -22,6 +22,92 @@
   font-size: 15px;
 }
 
+.time-picker {
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.time-picker-title {
+  margin: 0 0 6px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.time-picker-desc {
+  margin: 0 0 16px;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.time-picker-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 160px;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.field input {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text-h);
+  font: inherit;
+  font-size: 15px;
+}
+
+.field input:focus-visible {
+  outline: 2px solid #0b6e99;
+  outline-offset: 2px;
+}
+
+.time-picker-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.btn {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.btn-primary {
+  background: #0b6e99;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #095a7d;
+}
+
+.btn-secondary {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text-h);
+}
+
+.btn-secondary:hover {
+  border-color: #0b6e99;
+  color: #0b6e99;
+}
+
 .chart-section {
   width: 100%;
 }
@@ -33,5 +119,9 @@
 
   .page-header h1 {
     font-size: 24px;
+  }
+
+  .field {
+    flex: 1 1 140px;
   }
 }

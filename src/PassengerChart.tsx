@@ -3,6 +3,7 @@ import {
   Legend,
   Line,
   LineChart,
+  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -17,6 +18,7 @@ import './PassengerChart.css'
 
 type PassengerChartProps = {
   items: PassengerItem[]
+  highlightHour?: string
 }
 
 const SERIES = [
@@ -26,7 +28,7 @@ const SERIES = [
   { key: 't2Departure', name: 'T2 출국', color: '#8b5a2b' },
 ] as const
 
-function PassengerChart({ items }: PassengerChartProps) {
+function PassengerChart({ items, highlightHour }: PassengerChartProps) {
   const chartData = items.map((item) => ({
     time: formatTimeLabel(item.atime),
     t1Entry: toNumber(item.t1egsum1),
@@ -34,6 +36,8 @@ function PassengerChart({ items }: PassengerChartProps) {
     t2Entry: toNumber(item.t2egsum1),
     t2Departure: toNumber(item.t2dgsum2),
   }))
+
+  const highlightLabel = highlightHour ? `${highlightHour}시` : undefined
 
   if (chartData.length === 0) {
     return <p className="chart-empty">표시할 차트 데이터가 없습니다.</p>
@@ -77,6 +81,19 @@ function PassengerChart({ items }: PassengerChartProps) {
               labelFormatter={(label) => `시간대 ${label}`}
             />
             <Legend />
+            {highlightLabel && (
+              <ReferenceLine
+                x={highlightLabel}
+                stroke="#0b6e99"
+                strokeDasharray="4 4"
+                label={{
+                  value: '선택',
+                  position: 'insideTopRight',
+                  fill: '#0b6e99',
+                  fontSize: 12,
+                }}
+              />
+            )}
             {SERIES.map((series) => (
               <Line
                 key={series.key}
