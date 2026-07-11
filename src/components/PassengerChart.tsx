@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import {
   CartesianGrid,
   Legend,
@@ -10,24 +9,17 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import {
-  formatTimeLabel,
-  toNumber,
-  type PassengerItem,
-} from './types'
+import { useCompactLayout } from '../hooks/useCompactLayout'
+import { formatTimeLabel, toNumber } from '../utils/passenger'
+import { CHART_COLORS } from '../utils/theme'
+import type { PassengerItem, Theme } from '../types'
 import './PassengerChart.css'
 
 type PassengerChartProps = {
   items: PassengerItem[]
   highlightHour?: string
+  theme: Theme
 }
-
-const TERMINAL_SERIES = [
-  { key: 't1Entry', name: 'T1 입국', color: '#0b6e99' },
-  { key: 't1Departure', name: 'T1 출국', color: '#c45c26' },
-  { key: 't2Entry', name: 'T2 입국', color: '#1a7a5c' },
-  { key: 't2Departure', name: 'T2 출국', color: '#8b5a2b' },
-] as const
 
 type ChartPoint = {
   time: string
@@ -44,24 +36,9 @@ type ChartBlockProps = {
   data: ChartPoint[]
   series: readonly { key: keyof ChartPoint; name: string; color: string }[]
   highlightLabel?: string
+  highlightColor: string
   height?: number
   compact?: boolean
-}
-
-function useCompactLayout(breakpoint = 640) {
-  const [compact, setCompact] = useState(
-    () => typeof window !== 'undefined' && window.matchMedia(`(max-width: ${breakpoint}px)`).matches,
-  )
-
-  useEffect(() => {
-    const media = window.matchMedia(`(max-width: ${breakpoint}px)`)
-    const update = () => setCompact(media.matches)
-    update()
-    media.addEventListener('change', update)
-    return () => media.removeEventListener('change', update)
-  }, [breakpoint])
-
-  return compact
 }
 
 function ChartBlock({
@@ -70,6 +47,7 @@ function ChartBlock({
   data,
   series,
   highlightLabel,
+  highlightColor,
   height = 320,
   compact = false,
 }: ChartBlockProps) {
@@ -126,12 +104,12 @@ function ChartBlock({
             {highlightLabel && (
               <ReferenceLine
                 x={highlightLabel}
-                stroke="#0b6e99"
+                stroke={highlightColor}
                 strokeDasharray="4 4"
                 label={{
                   value: '선택',
                   position: 'insideTopRight',
-                  fill: '#0b6e99',
+                  fill: highlightColor,
                   fontSize: tickSize,
                 }}
               />
@@ -155,8 +133,20 @@ function ChartBlock({
   )
 }
 
-function PassengerChart({ items, highlightHour }: PassengerChartProps) {
+export default function PassengerChart({
+  items,
+  highlightHour,
+  theme,
+}: PassengerChartProps) {
   const compact = useCompactLayout()
+  const colors = CHART_COLORS[theme]
+
+  const terminalSeries = [
+    { key: 't1Entry' as const, name: 'T1 입국', color: colors.t1Entry },
+    { key: 't1Departure' as const, name: 'T1 출국', color: colors.t1Departure },
+    { key: 't2Entry' as const, name: 'T2 입국', color: colors.t2Entry },
+    { key: 't2Departure' as const, name: 'T2 출국', color: colors.t2Departure },
+  ]
 
   const chartData: ChartPoint[] = items.map((item) => {
     const t1Entry = toNumber(item.t1egsum1)
@@ -186,8 +176,9 @@ function PassengerChart({ items, highlightHour }: PassengerChartProps) {
         title="터미널별 출입국"
         description="T1·T2 입국/출국 합계를 시간대별로 비교합니다."
         data={chartData}
-        series={TERMINAL_SERIES}
+        series={terminalSeries}
         highlightLabel={highlightLabel}
+        highlightColor={colors.highlight}
         compact={compact}
       />
 
@@ -195,13 +186,12 @@ function PassengerChart({ items, highlightHour }: PassengerChartProps) {
         title="전체 Total"
         description="시간대별 전체 예상 승객 수(터미널 합산)입니다."
         data={chartData}
-        series={[{ key: 'total', name: 'Total', color: '#334155' }]}
+        series={[{ key: 'total', name: 'Total', color: colors.total }]}
         highlightLabel={highlightLabel}
+        highlightColor={colors.highlight}
         height={280}
         compact={compact}
       />
     </div>
   )
 }
-
-export default PassengerChart

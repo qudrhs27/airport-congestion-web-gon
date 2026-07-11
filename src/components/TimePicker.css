@@ -1,0 +1,45 @@
+.time-picker {
+  margin-bottom: clamp(20px, 3vw, 28px);
+  padding-bottom: clamp(20px, 3vw, 24px);
+  border-bottom: 1px solid var(--border);
+}
+
+.time-picker-title {
+  margin: 0 0 6px;
+  font-size: clamp(1.0625rem, 0.5vw + 0.9rem, 1.25rem);
+  font-weight: 600;
+}
+
+.time-picker-desc {
+  margin: 0 0 16px;
+  font-size: clamp(0.8125rem, 0.2vw + 0.75rem, 0.875rem);
+  color: var(--text);
+}
+
+.time-picker-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.time-picker-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+@media (max-width: 640px) {
+  .time-picker-row {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .time-picker-actions {
+    flex-direction: column;
+  }
+
+  .time-picker-actions .btn {
+    width: 100%;
+  }
+}

@@ -5,46 +5,8 @@
   text-align: left;
 }
 
-.page-header {
-  margin-bottom: clamp(20px, 3vw, 28px);
-  padding-bottom: clamp(16px, 2vw, 20px);
-  border-bottom: 1px solid var(--border);
-}
-
-.page-header h1 {
-  margin: 0 0 8px;
-  font-size: clamp(1.375rem, 2.5vw + 0.75rem, 2rem);
-  letter-spacing: -0.03em;
-}
-
-.page-status {
-  color: var(--text);
-  font-size: clamp(0.8125rem, 0.2vw + 0.75rem, 0.9375rem);
-}
-
-.time-picker {
-  margin-bottom: clamp(20px, 3vw, 28px);
-  padding-bottom: clamp(20px, 3vw, 24px);
-  border-bottom: 1px solid var(--border);
-}
-
-.time-picker-title {
-  margin: 0 0 6px;
-  font-size: clamp(1.0625rem, 0.5vw + 0.9rem, 1.25rem);
-  font-weight: 600;
-}
-
-.time-picker-desc {
-  margin: 0 0 16px;
-  font-size: clamp(0.8125rem, 0.2vw + 0.75rem, 0.875rem);
-  color: var(--text);
-}
-
-.time-picker-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 16px;
+.chart-section {
+  width: 100%;
 }
 
 .field {
@@ -73,12 +35,6 @@
   outline-offset: 2px;
 }
 
-.time-picker-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
 .btn {
   box-sizing: border-box;
   min-height: var(--touch-min);
@@ -92,13 +48,18 @@
   transition: background 0.2s, border-color 0.2s, color 0.2s;
 }
 
-.btn-primary {
-  background: #1a1a1a;
-  color: #fff;
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
-.btn-primary:hover {
-  background: #333333;
+.btn-primary {
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-fg);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--btn-primary-hover);
 }
 
 .btn-secondary {
@@ -107,47 +68,14 @@
   color: var(--text-h);
 }
 
-.btn-secondary:hover {
-  border-color: #1a1a1a;
-  color: #1a1a1a;
-}
-
-.chart-section {
-  width: 100%;
-}
-
-@media (prefers-color-scheme: dark) {
-  .btn-primary {
-    background: #f0f0f0;
-    color: #1a1a1a;
-  }
-
-  .btn-primary:hover {
-    background: #e0e0e0;
-  }
-
-  .btn-secondary:hover {
-    border-color: #f0f0f0;
-    color: #f0f0f0;
-  }
+.btn-secondary:hover:not(:disabled) {
+  border-color: var(--btn-secondary-hover);
+  color: var(--btn-secondary-hover);
 }
 
 @media (max-width: 640px) {
-  .time-picker-row {
-    flex-direction: column;
-    gap: 14px;
-  }
-
   .field {
     width: 100%;
     min-width: 0;
-  }
-
-  .time-picker-actions {
-    flex-direction: column;
-  }
-
-  .btn {
-    width: 100%;
   }
 }

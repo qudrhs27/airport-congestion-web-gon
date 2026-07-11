@@ -1,0 +1,25 @@
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: clamp(20px, 3vw, 28px);
+  padding-bottom: clamp(16px, 2vw, 20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.page-header-text {
+  min-width: 0;
+  flex: 1;
+}
+
+.page-header h1 {
+  margin: 0 0 8px;
+  font-size: clamp(1.375rem, 2.5vw + 0.75rem, 2rem);
+  letter-spacing: -0.03em;
+}
+
+.page-status {
+  color: var(--text);
+  font-size: clamp(0.8125rem, 0.2vw + 0.75rem, 0.9375rem);
+}

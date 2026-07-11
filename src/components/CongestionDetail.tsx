@@ -1,8 +1,6 @@
-import {
-  formatTimeRange,
-  toNumber,
-  type PassengerItem,
-} from './types'
+import { formatTimeRange, getPassengerTotal, toNumber } from '../utils/passenger'
+import { getCongestionLevel } from '../utils/congestion'
+import type { PassengerItem } from '../types'
 import './CongestionDetail.css'
 
 type CongestionDetailProps = {
@@ -17,7 +15,7 @@ const METRICS = [
   { key: 't2dgsum2', label: 'T2 출국 합계', tone: 'departure' },
 ] as const
 
-function CongestionDetail({ item, message }: CongestionDetailProps) {
+export default function CongestionDetail({ item, message }: CongestionDetailProps) {
   if (!item) {
     return (
       <section className="detail-panel detail-empty">
@@ -32,11 +30,8 @@ function CongestionDetail({ item, message }: CongestionDetailProps) {
       ? `${item.adate.slice(0, 4)}.${item.adate.slice(4, 6)}.${item.adate.slice(6, 8)}`
       : item.adate
 
-  const total =
-    toNumber(item.t1egsum1) +
-    toNumber(item.t1dgsum1) +
-    toNumber(item.t2egsum1) +
-    toNumber(item.t2dgsum2)
+  const total = getPassengerTotal(item)
+  const congestion = getCongestionLevel(total)
 
   return (
     <section className="detail-panel">
@@ -44,6 +39,16 @@ function CongestionDetail({ item, message }: CongestionDetailProps) {
       <p className="detail-meta">
         {dateLabel} · {formatTimeRange(item.atime)}
       </p>
+
+      <div className={`detail-level level-${congestion.level}`} aria-label={`혼잡도 ${congestion.label}`}>
+        <span className="detail-level-emoji" aria-hidden="true">
+          {congestion.emoji}
+        </span>
+        <div className="detail-level-text">
+          <strong className="detail-level-label">{congestion.label}</strong>
+          <p className="detail-level-desc">{congestion.description}</p>
+        </div>
+      </div>
 
       <div className="detail-total">
         <span className="detail-label">전체 Total</span>
@@ -67,5 +72,3 @@ function CongestionDetail({ item, message }: CongestionDetailProps) {
     </section>
   )
 }
-
-export default CongestionDetail
